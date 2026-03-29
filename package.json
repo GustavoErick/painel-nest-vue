@@ -1,0 +1,24 @@
+{
+  "name": "painel-nest-vue",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GustavoErick/painel-nest-vue.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/GustavoErick/painel-nest-vue/issues"
+  },
+  "homepage": "https://github.com/GustavoErick/painel-nest-vue#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0"
+  }
+}
