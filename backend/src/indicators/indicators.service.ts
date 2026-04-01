@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { Surgery } from '../external-api/interfaces/surgery.interface'
 import { Indicators } from './interfaces/indicators.interface'
+import { Response } from 'express'
 
 @Injectable()
 export class IndicatorsService {
@@ -10,6 +11,23 @@ export class IndicatorsService {
     inAnesthesia: 0,
     averageDelayMinutes: 0,
     updatedAt: new Date(),
+  }
+
+  private clients: Response[] = []
+
+  addClient(client: Response) {
+    this.clients.push(client)
+  }
+
+  removeClient(client: Response) {
+    this.clients = this.clients.filter((c) => c !== client)
+  }
+
+  private emitToClients() {
+    const data = JSON.stringify(this.currentIndicators)
+    this.clients.forEach((client) => {
+      client.write(`data: ${data}\n\n`)
+    })
   }
 
   calculate(surgeries: Surgery[]): Indicators {
@@ -45,6 +63,7 @@ export class IndicatorsService {
       updatedAt: new Date(),
     }
 
+    this.emitToClients()
     return this.currentIndicators
   }
 
