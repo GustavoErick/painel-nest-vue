@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common'
+import { MessageEvent } from '@nestjs/common'
 import { Surgery } from '../external-api/interfaces/surgery.interface'
 import { Indicators } from './interfaces/indicators.interface'
-import { Response } from 'express'
+import { Observable, Subject } from 'rxjs'
 
 @Injectable()
 export class IndicatorsService {
+  private readonly indicators$ = new Subject<MessageEvent>()
+
   private currentIndicators: Indicators = {
     finalized: 0,
     inProgress: 0,
@@ -13,20 +16,13 @@ export class IndicatorsService {
     updatedAt: new Date(),
   }
 
-  private clients: Response[] = []
-
-  addClient(client: Response) {
-    this.clients.push(client)
-  }
-
-  removeClient(client: Response) {
-    this.clients = this.clients.filter((c) => c !== client)
+  stream(): Observable<MessageEvent> {
+    return this.indicators$.asObservable()
   }
 
   private emitToClients() {
-    const data = JSON.stringify(this.currentIndicators)
-    this.clients.forEach((client) => {
-      client.write(`data: ${data}\n\n`)
+    this.indicators$.next({
+      data: this.currentIndicators,
     })
   }
 
