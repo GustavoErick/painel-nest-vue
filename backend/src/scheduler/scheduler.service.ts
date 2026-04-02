@@ -20,21 +20,8 @@ export class SchedulerService {
 
     const surgeries = await this.externalApiService.fetchTodaySurgeries()
     const indicators = this.indicatorsService.calculate(surgeries)
-
-    const cached = await this.redisService.getIndicators()
-
-    const hasChanged =
-      cached?.finalized !== indicators.finalized ||
-      cached?.inProgress !== indicators.inProgress ||
-      cached?.inAnesthesia !== indicators.inAnesthesia ||
-      cached?.averageDelayMinutes !== indicators.averageDelayMinutes
-
-    if (hasChanged) {
-      await this.redisService.saveIndicators(indicators)
-      this.logger.debug('Indicadores atualizados no Redis')
-    } else {
-      this.logger.debug('Indicadores sem alteração')
-    }
+    
+    await this.redisService.saveIndicators(indicators)
 
     this.logger.debug(`Indicadores calculados: ${JSON.stringify(indicators)}`)
   }
