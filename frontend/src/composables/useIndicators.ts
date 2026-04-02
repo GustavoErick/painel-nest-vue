@@ -5,7 +5,7 @@ export interface Indicators {
   inProgress: number
   inAnesthesia: number
   averageDelayMinutes: number
-  updatedAt: Date | null
+  updatedAt: string | null
 }
 
 export function useIndicators() {

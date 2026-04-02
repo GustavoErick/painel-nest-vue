@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  value: number | string | Date
+  value: number | string
   label: string
   color: string
   unit?: string
@@ -8,67 +8,22 @@ defineProps<{
 </script>
 
 <template>
-  <div class="card">
-    <div class="card-content">
-      <span class="card-value"
-        >{{ value }}<span v-if="unit" class="card-unit">{{ unit }}</span></span
-      >
-      <span class="card-label">{{ label }}</span>
+  <article
+    class="flex min-h-[120px] flex-col justify-between overflow-hidden rounded-[14px] border border-slate-200 bg-white/90 shadow-[0_12px_32px_-24px_rgba(15,23,42,0.32)]"
+  >
+    <div class="flex flex-col gap-[0.45rem] px-5 pt-5">
+      <span class="text-[2.1rem] font-bold leading-none text-slate-900">
+        {{ value }}
+        <span v-if="unit" class="ml-1 text-[1.1rem] font-medium">
+          {{ unit }}
+        </span>
+      </span>
+
+      <span class="text-[0.95rem] text-slate-600">
+        {{ label }}
+      </span>
     </div>
-    <div class="card-bar" :style="{ backgroundColor: color }" />
-  </div>
+
+    <div class="h-[6px] w-full" :style="{ backgroundColor: color }" />
+  </article>
 </template>
-
-<style scoped>
-.card {
-  background-color: var(--card-bg, #ffffff);
-  border-radius: 12px;
-  border: 1px solid var(--card-border, #e2e8f0);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 1.25rem 1.25rem 0;
-  gap: 1rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-.card-content {
-  display: flex;
-  flex-direction: column;
-  gap: 0.375rem;
-}
-
-.card-value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--card-text, #0f172a);
-  line-height: 1;
-}
-
-.card-unit {
-  font-size: 1.25rem;
-  font-weight: 500;
-  margin-left: 2px;
-}
-
-.card-label {
-  font-size: 0.875rem;
-  color: var(--card-muted, #64748b);
-}
-
-.card-bar {
-  height: 5px;
-  width: 100%;
-  border-radius: 0 0 2px 2px;
-}
-
-@media (prefers-color-scheme: dark) {
-  .card {
-    --card-bg: #1e293b;
-    --card-border: #334155;
-    --card-text: #f1f5f9;
-    --card-muted: #94a3b8;
-  }
-}
-</style>
