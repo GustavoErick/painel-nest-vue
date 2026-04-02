@@ -15,22 +15,22 @@ const cards: CardConfig[] = [
   {
     key: 'finalized',
     label: 'Cirurgias finalizadas',
-    color: '#22c55e',
+    color: '#47A929',
   },
   {
     key: 'inProgress',
     label: 'Em andamento',
-    color: '#6366f1',
+    color: '#8445E0',
   },
   {
     key: 'inAnesthesia',
     label: 'Em anestesia',
-    color: '#f59e0b',
+    color: '#FFD343',
   },
   {
     key: 'averageDelayMinutes',
     label: 'Atraso médio',
-    color: '#ef4444',
+    color: '#F44848',
     unit: 'min',
   },
 ]
