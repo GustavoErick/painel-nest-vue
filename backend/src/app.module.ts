@@ -4,6 +4,7 @@ import { IndicatorsModule } from './indicators/indicators.module'
 import { ScheduleModule } from '@nestjs/schedule'
 import { SchedulerModule } from './scheduler/scheduler.module'
 import { ConfigModule } from '@nestjs/config'
+import { RedisModule } from './redis/redis.module'
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ConfigModule } from '@nestjs/config'
     ExternalApiModule,
     IndicatorsModule,
     SchedulerModule,
+    RedisModule,
   ],
 })
 export class AppModule {}
