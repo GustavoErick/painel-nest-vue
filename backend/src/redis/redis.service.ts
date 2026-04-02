@@ -30,6 +30,17 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
 
   async getIndicators(): Promise<Indicators | null> {
     const data = await this.client.get(INDICATORS_KEY)
-    return data ? (JSON.parse(data) as Indicators) : null
+    if (!data) {
+      return null
+    }
+
+    const parsed = JSON.parse(data) as Omit<Indicators, 'updatedAt'> & {
+      updatedAt: string
+    }
+
+    return {
+      ...parsed,
+      updatedAt: new Date(parsed.updatedAt),
+    }
   }
 }

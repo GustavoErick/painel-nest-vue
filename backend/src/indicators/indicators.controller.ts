@@ -1,5 +1,6 @@
-import { Controller, Res, Sse } from '@nestjs/common'
-import type { Response } from 'express'
+import { Controller, MessageEvent, Sse } from '@nestjs/common'
+import { concat, defer, from, Observable, of } from 'rxjs'
+import { catchError, map } from 'rxjs/operators'
 import { IndicatorsService } from './indicators.service'
 import { RedisService } from 'src/redis/redis.service'
 
@@ -11,19 +12,18 @@ export class IndicatorsController {
   ) {}
 
   @Sse('stream')
-  async stream(@Res() res: Response) {
-    res.setHeader('Content-Type', 'text/event-stream')
-    res.setHeader('Cache-Control', 'no-cache')
-    res.setHeader('Connection', 'keep-alive')
+  stream(): Observable<MessageEvent> {
+    const initialState$ = defer(() => from(this.redisService.getIndicators())).pipe(
+      map((cached) => ({
+        data: cached ?? this.indicatorsService.getCurrent(),
+      })),
+      catchError(() =>
+        of({
+          data: this.indicatorsService.getCurrent(),
+        }),
+      ),
+    )
 
-    const cached = await this.redisService.getIndicators()
-    const current = cached ?? this.indicatorsService.getCurrent()
-    res.write(`data: ${JSON.stringify(current)}\n\n`)
-
-    this.indicatorsService.addClient(res)
-
-    res.on('close', () => {
-      this.indicatorsService.removeClient(res)
-    })
+    return concat(initialState$, this.indicatorsService.stream())
   }
 }
