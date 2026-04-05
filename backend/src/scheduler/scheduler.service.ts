@@ -3,6 +3,8 @@ import { Interval } from '@nestjs/schedule'
 import { ExternalApiService } from '../external-api/external-api.service'
 import { IndicatorsService } from '../indicators/indicators.service'
 import { RedisService } from '../redis/redis.service'
+import { HistoryService } from '../history/history.service'
+
 
 @Injectable()
 export class SchedulerService {
@@ -12,6 +14,7 @@ export class SchedulerService {
     private readonly externalApiService: ExternalApiService,
     private readonly indicatorsService: IndicatorsService,
     private readonly redisService: RedisService,
+    private readonly historyService: HistoryService,
   ) {}
 
   @Interval(2000)
@@ -22,6 +25,8 @@ export class SchedulerService {
     const indicators = this.indicatorsService.calculate(surgeries)
     
     await this.redisService.saveIndicators(indicators)
+    await this.historyService.saveIndicators(indicators)
+
 
     this.logger.debug(`Indicadores calculados: ${JSON.stringify(indicators)}`)
   }
