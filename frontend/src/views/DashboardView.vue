@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import RealtimeIndicatorsPanel from '@/components/RealtimeIndicatorsPanel.vue'
-import HistoryChart from '@/components/HistoryChart.vue' 
-
+import HistoryChart from '@/components/HistoryChart.vue'
 </script>
 
 <template>
@@ -20,7 +19,6 @@ import HistoryChart from '@/components/HistoryChart.vue'
       <h2 class="m-0 text-2xl font-semibold text-[var(--p-text-color)]">Dados históricos</h2>
     </header>
 
-  <HistoryChart />
-  
+    <HistoryChart />
   </section>
 </template>
