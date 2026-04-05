@@ -6,7 +6,7 @@ export interface HistoryRecord {
   value: number
   referenceDate: string
   createdAt: string
-  metadata: any
+  metadata: Record<string, unknown>
 }
 
 export function useHistory(indicatorId?: string) {
@@ -30,8 +30,8 @@ export function useHistory(indicatorId?: string) {
       
       const data = await response.json()
       historyData.value = data
-    } catch (err: any) {
-      error.value = err.message || 'Erro ao carregar os dados de histórico'
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : 'Erro ao carregar os dados de histórico'
     } finally {
       isLoading.value = false
     }
