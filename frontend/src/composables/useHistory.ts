@@ -22,12 +22,12 @@ export function useHistory(indicatorId?: string) {
       if (indicatorId) {
         url.searchParams.append('indicatorId', indicatorId)
       }
-      
+
       const response = await fetch(url.toString())
       if (!response.ok) {
         throw new Error('Falha ao buscar o histórico')
       }
-      
+
       const data = await response.json()
       historyData.value = data
     } catch (err) {
@@ -45,6 +45,6 @@ export function useHistory(indicatorId?: string) {
     historyData,
     isLoading,
     error,
-    fetchHistory
+    fetchHistory,
   }
 }
