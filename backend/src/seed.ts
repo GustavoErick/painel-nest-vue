@@ -16,9 +16,10 @@ async function bootstrap() {
   await repository.query('TRUNCATE TABLE indicator_history RESTART IDENTITY CASCADE;');
 
   const indicators = [
-    { id: 'selic', baseValue: 10.5, variation: 0.5 },
-    { id: 'ipca', baseValue: 4.5, variation: 0.3 },
-    { id: 'cdi', baseValue: 10.4, variation: 0.4 },
+    { id: 'finalized', baseValue: 8, variation: 3 },
+    { id: 'inProgress', baseValue: 4, variation: 2 },
+    { id: 'inAnesthesia', baseValue: 2, variation: 1 },
+    { id: 'averageDelayMinutes', baseValue: 15, variation: 5 },
   ];
 
   const historyData: Partial<IndicatorHistory>[] = [];
