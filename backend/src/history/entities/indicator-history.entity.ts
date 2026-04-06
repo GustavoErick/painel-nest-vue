@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, Unique } from 'typeorm';
 
 @Entity('indicator_history')
+@Unique(['indicatorId', 'referenceDate'])
 export class IndicatorHistory {
   @PrimaryGeneratedColumn('uuid')
   id: string;
