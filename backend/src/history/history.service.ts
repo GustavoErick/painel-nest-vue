@@ -11,7 +11,7 @@ export class HistoryService {
     private readonly historyRepository: Repository<IndicatorHistory>,
   ) {}
 
-  async findAllHistory(_indicatorId?: string) {
+  async findAllHistory() {
     const data = await this.historyRepository
       .createQueryBuilder('history')
       .orderBy('history.referenceDate', 'ASC')
