@@ -7,7 +7,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { RedisModule } from './redis/redis.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { HistoryModule } from './history/history.module'
-import { IndicatorHistory } from './history/entities/indicator-history.entity'
 
 @Module({
   imports: [

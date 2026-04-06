@@ -11,7 +11,7 @@ export class HistoryService {
     private readonly historyRepository: Repository<IndicatorHistory>,
   ) {}
 
-  async findAllHistory(indicatorId?: string) {
+  async findAllHistory(_indicatorId?: string) {
     const data = await this.historyRepository
       .createQueryBuilder('history')
       .orderBy('history.referenceDate', 'ASC')
@@ -24,7 +24,7 @@ export class HistoryService {
 
   const dateObj = rawDate instanceof Date
     ? rawDate
-    : new Date(rawDate + 'T00:00:00') 
+    : new Date(String(rawDate) + 'T00:00:00')
 
   if (isNaN(dateObj.getTime())) {
     console.log('Data inválida:', rawDate)
