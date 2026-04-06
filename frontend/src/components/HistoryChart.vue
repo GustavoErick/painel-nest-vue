@@ -22,12 +22,11 @@ Chart.register(
 )
 
 interface HistoryRecord {
-  id: string
-  indicatorId: string
-  value: number
-  referenceDate: string
-  createdAt: string
-  metadata: Record<string, unknown>
+  date: string
+  finalized: number
+  inProgress: number
+  inAnesthesia: number
+  averageDelayMinutes: number
 }
 
 const INDICATOR_CONFIG: Record<string, { label: string; color: string }> = {
@@ -62,7 +61,10 @@ async function fetchHistory() {
 onMounted(() => fetchHistory())
 
 const filtered = computed(() =>
-  historyData.value.filter((r) => r.indicatorId === selectedIndicator.value),
+  historyData.value.map((r: HistoryRecord) => ({
+    date: r.date,
+    value: r[selectedIndicator.value as keyof HistoryRecord] as number,
+  })),
 )
 
 // Chart.js canvas
@@ -83,11 +85,12 @@ function buildChart() {
     type: 'line',
     data: {
       labels: filtered.value.map((r) =>
-        new Date(r.referenceDate).toLocaleDateString('pt-BR', {
+        new Date(r.date).toLocaleDateString('pt-BR', {
           day: '2-digit',
           month: '2-digit',
         }),
       ),
+      data: filtered.value.map((r) => r.value),
       datasets: [
         {
           label: INDICATOR_CONFIG[selectedIndicator.value]?.label ?? selectedIndicator.value,
@@ -143,7 +146,6 @@ onBeforeUnmount(() => {
   <article
     class="relative flex flex-col gap-5 overflow-hidden rounded-[14px] border border-slate-200 bg-white/90 p-6 shadow-[0_12px_32px_-24px_rgba(15,23,42,0.32)]"
   >
-    <!-- Tabs de seleção -->
     <div class="flex flex-wrap gap-2">
       <button
         v-for="id in indicators"
@@ -168,27 +170,22 @@ onBeforeUnmount(() => {
       </button>
     </div>
 
-    <!-- Loading -->
     <div v-if="isLoading" class="flex h-[300px] items-center justify-center">
       <span class="text-sm text-slate-400">Carregando dados...</span>
     </div>
 
-    <!-- Erro -->
     <div v-else-if="error" class="flex h-[300px] items-center justify-center">
       <span class="text-sm text-red-400">{{ error }}</span>
     </div>
 
-    <!-- Sem dados -->
     <div v-else-if="filtered.length === 0" class="flex h-[300px] items-center justify-center">
       <span class="text-sm text-slate-400">Nenhum dado histórico disponível.</span>
     </div>
 
-    <!-- Gráfico -->
     <div v-else class="h-[300px]">
       <canvas ref="canvasRef" class="h-full w-full" />
     </div>
 
-    <!-- Barra colorida no rodapé -->
     <div
       class="absolute bottom-0 left-0 h-[5px] w-full transition-colors duration-300"
       :style="{ backgroundColor: INDICATOR_CONFIG[selectedIndicator].color }"

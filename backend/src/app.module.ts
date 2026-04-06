@@ -7,7 +7,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { RedisModule } from './redis/redis.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { HistoryModule } from './history/history.module'
-import { IndicatorHistory } from './history/entities/indicator-history.entity'
 
 @Module({
   imports: [
@@ -21,7 +20,7 @@ import { IndicatorHistory } from './history/entities/indicator-history.entity'
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
         url: configService.get<string>('DATABASE_URL'),
-        entities: [IndicatorHistory],
+        autoLoadEntities: true,
         synchronize: true,
       }),
     }),
@@ -32,4 +31,4 @@ import { IndicatorHistory } from './history/entities/indicator-history.entity'
     HistoryModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}
