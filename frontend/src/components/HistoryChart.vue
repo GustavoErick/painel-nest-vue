@@ -30,10 +30,8 @@ interface HistoryRecord {
 }
 
 const INDICATOR_CONFIG: Record<string, { label: string; color: string }> = {
-  finalized: { label: 'Finalizadas', color: '#22c55e' },
-  inProgress: { label: 'Em andamento', color: '#3b82f6' },
-  inAnesthesia: { label: 'Em anestesia', color: '#f59e0b' },
-  averageDelayMinutes: { label: 'Atraso médio (min)', color: '#ef4444' },
+  finalized: { label: 'Finalizadas', color: '#47A929' },
+  averageDelayMinutes: { label: 'Atraso médio (min)', color: '#F44848' },
 }
 
 const indicators = Object.keys(INDICATOR_CONFIG)
@@ -150,7 +148,7 @@ onBeforeUnmount(() => {
       <button
         v-for="id in indicators"
         :key="id"
-        class="rounded-full border px-4 py-1.5 text-sm font-medium transition-all duration-200"
+        class="rounded-full border px-4 py-1.5 text-sm font-medium transition-all duration-200 cursor-pointer"
         :style="
           selectedIndicator === id
             ? {
