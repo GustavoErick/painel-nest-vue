@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "services:up": "docker compose build --no-cache && docker compose up -d",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
