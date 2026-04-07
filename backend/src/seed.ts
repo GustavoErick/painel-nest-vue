@@ -33,7 +33,7 @@ async function bootstrap() {
     for (const indicator of indicators) {
       const value =
         indicator.baseValue +
-        faker.number.float({ min: -indicator.variation, max: indicator.variation, fractionDigits: 2 });
+        faker.number.int({ min: -indicator.variation, max: indicator.variation })
 
       historyData.push({
         indicatorId: indicator.id,
